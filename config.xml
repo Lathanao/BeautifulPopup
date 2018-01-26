@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<module>
+	<name>Beautifulpopup</name>
+	<displayName><![CDATA[Beautiful Popup solution]]></displayName>
+	<version><![CDATA[1.0]]></version>
+	<description><![CDATA[Add some beautifull popups, where and when you want on your shop]]></description>
+	<author><![CDATA[Lathanao]]></author>
+	<tab><![CDATA[Block]]></tab>
+	<confirmUninstall><![CDATA[Are you sure you want to uninstall this module?]]></confirmUninstall>
+	<is_configurable>0</is_configurable>
+	<need_instance>1</need_instance>
+	<limited_countries></limited_countries>
+</module>

@@ -1,0 +1,10 @@
+.mce-i-hr::before {
+    content: "";
+}
+.mce-i-charmap::before {
+    content: "";
+    content: "";
+}
+.mce-i-visualchars::before, .mce-i-visualblocks::before {
+    content: "";
+}

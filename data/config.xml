@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <tabs>
+        <tab main="1" first="1">
+            <class>AdminBeautifulPopup</class>
+            <langs>
+                <lang iso="en">Beautiful Popup</lang>
+                <lang iso="fr">Beautiful Popup</lang>
+            </langs>
+        </tab>
+        <tab>
+            <class>AdminPopup</class>
+            <langs>
+                <lang iso="en">Manage Popup</lang>
+                <lang iso="fr">Gérer les Popup</lang>
+            </langs>
+        </tab>
+        <tab>
+            <class>AdminTemplate</class>
+            <langs>
+                <lang iso="en">Manage Template</lang>
+                <lang iso="fr">Gérer les Templates</lang>
+            </langs>
+        </tab>
+    </tabs>
+</configuration>
