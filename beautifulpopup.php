@@ -35,12 +35,6 @@ class Beautifulpopup extends Module {
         $this->file = __FILE__;
     }
 
-    public static function getInstance()
-    {
-        if (self::$instance === null)
-            self::$instance = new Beautifulpopup();
-        return self::$instance;
-    }
 
     ################
     # INSTALLATION #
@@ -48,8 +42,10 @@ class Beautifulpopup extends Module {
 
     public function install() {
 
+        // if (!BNPopup::createDatabase() || !BNTemplate::createDatabase())
+        //     return false;
 
-        if (!BNPopup::createDatabase() || !BNTemplate::createDatabase())
+        if (!$this->createPopupTabs())
             return false;
 
         if (!parent::install())
@@ -61,14 +57,72 @@ class Beautifulpopup extends Module {
         return true;
     }
 
-    public static function getVersionDir()
-    {
-        $version = explode('.', _PS_VERSION_);
-        if ((int)$version[1] < 6)
-            return ('1.5');
-        return ('1.6');
+
+    public function uninstall() {
+
+        if (!$this->removePopupTabs())
+            return false;
+
+        if (!parent::uninstall())
+            return false;
+
+        return true;
     }
 
+    protected function createPopupTabs()
+    {
+        $langs = Language::getLanguages();
+        $PopupTabs = new Tab((int) Tab::getIdFromClassName('AdminBeautifulPopup'));
+        $PopupTabs->class_name = 'AdminBeautifulPopup';
+        $PopupTabs->module = '';
+        $PopupTabs->id_parent = 0;
+        foreach ($langs as $l) {
+            $PopupTabs->name[$l['id_lang']] = $this->l('Beautiful Popup');
+        }
+
+        $PopupTabs->save();
+
+        $tabs = [
+            [
+                'class_name' => 'AdminPopup',
+                'id_parent'  => $PopupTabs->id,
+                'module'     => $this->name,
+                'name'       => 'Manage Popup',
+            ],
+            [
+                'class_name' => 'AdminTemplate',
+                'id_parent'  => $PopupTabs->id,
+                'module'     => $this->name,
+                'name'       => 'Manage Template',
+            ],
+        ];
+
+        foreach ($tabs as $tab) {
+            $newTab = new Tab((int) Tab::getIdFromClassName($tab['class_name']));
+            $newTab->class_name = $tab['class_name'];
+            $newTab->id_parent = $tab['id_parent'];
+            $newTab->module = $tab['module'];
+            foreach ($langs as $l) {
+                $newTab->name[$l['id_lang']] = $this->l($tab['name']);
+            }
+
+            $newTab->save();
+        }
+
+        return true;
+    }
+
+    protected function removePopupTabs()
+    {
+        $tabs = [   ['class_name' => 'AdminBeautifulPopup'],
+                    ['class_name' => 'AdminPopup'],
+                    ['class_name' => 'AdminTemplate']];
+
+        foreach ($tabs as $key => $tab)
+        	  (new Tab((int) Tab::getIdFromClassName($tab['class_name'])))->delete();
+
+        return true;
+    }
 
     public function hookbackOfficeHeader() {
 
