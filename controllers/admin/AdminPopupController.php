@@ -116,7 +116,8 @@ class AdminPopupController extends ModuleAdminController {
                     'rows'  => 10,
                     'cols'  => 62,
                     'label' => $this->l('Popup content'),
-                    'desc'  => $this->l('Add here the popup HTML content.')
+                    'desc'  => $this->l('Add here the popup HTML content.'),
+                    'autoload_rte' => true,
                 ),
                 array(
                     'name'  => 'css',
@@ -202,13 +203,13 @@ class AdminPopupController extends ModuleAdminController {
                 'title' => $this->l('Save')
             ),
             'buttons' => array(
-                'save_and_preview' => array(
-                    'name' => 'previewpopup',
-                    'type' => 'submit',
-                    'title' => $this->l('Save and preview'),
-                    'class' => 'btn btn-default pull-right',
-                    'icon' => 'process-icon-preview'
-                ),
+                // 'save_and_preview' => array(
+                //     'name' => 'previewpopup',
+                //     'type' => 'submit',
+                //     'title' => $this->l('Save and preview'),
+                //     'class' => 'btn btn-default pull-right',
+                //     'icon' => 'process-icon-preview',
+                // ),
                 'save_and_stay' => array(
                     'name' => 'savenstaypopup',
                     'type' => 'submit',
@@ -262,9 +263,6 @@ class AdminPopupController extends ModuleAdminController {
     public function setMedia() {
 
         parent::setMedia();
-        $this->addJS(_PS_MODULE_DIR_.$this->module->name.'/js/tinyLoader.js');
-        $this->addJS(_PS_MODULE_DIR_.$this->module->name.'/js/addCssAdmin.js');
-
         $this->addJqueryUI('ui.datepicker');
     }
 
@@ -275,11 +273,18 @@ class AdminPopupController extends ModuleAdminController {
     public function initPageHeaderToolbar() {
 
         if (!Tools::isSubmit('addbn_popup') && !Tools::isSubmit('updatebn_popup')) {
-
             $this->page_header_toolbar_btn['new_product'] = array(
                 'href' => self::$currentIndex.'&addbn_popup&token='.$this->token,
                 'desc' => $this->l('Add Popup', null, null, false),
                 'icon' => 'process-icon-new'
+            );
+        } else {
+            $this->page_header_toolbar_btn['Preview_Popup'] = array(
+                'href' => Tools::getShopDomain(true).'?admin_preview_popup='.Tools::getValue('id_bn_popup'),
+                'desc' => $this->l('Preview Popup', null, null, false),
+                'icon' => 'process-icon-preview previewUrl',
+                'target' => '_blank',
+
             );
         }
         return parent::initPageHeaderToolbar();

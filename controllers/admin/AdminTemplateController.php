@@ -100,14 +100,14 @@ class AdminTemplateController extends ModuleAdminController {
                     'type' => 'text',
                     'label' => $this->l('Background Color'),
                     'desc' => $this->l('Add here the background color.'),
-                    'class' => 'color'
+                    'class' => 'jscolor'
                 ),
             	array(
                     'name' => 'borderColor',
                     'type' => 'text',
                     'label' => $this->l('Border Color'),
                     'desc' => $this->l('Add here the border color.'),
-                    'class' => 'color'
+                    'class' => 'jscolor'
                 ),
             	array(
                     'name' => 'borderSize',
@@ -153,7 +153,6 @@ class AdminTemplateController extends ModuleAdminController {
     public function setMedia() {
 
         parent::setMedia();
-        $this->addJS(_MODULE_DIR_.$this->module->name.'/js/jscolor/jscolor.js', 'all');
         $this->addJqueryUI('ui.datepicker');
     }
 
