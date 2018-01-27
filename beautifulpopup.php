@@ -36,32 +36,24 @@ class Beautifulpopup extends Module {
     }
 
 
-    ################
-    # INSTALLATION #
-    ################
-
-    public function install() {
-
-        // if (!BNPopup::createDatabase() || !BNTemplate::createDatabase())
-        //     return false;
-
-        if (!$this->createPopupTabs())
-            return false;
+    public function install()
+    {
+        if (!BNInstaller::getInstance($this)->install())
+             return false;
 
         if (!parent::install())
             return false;
 
         if (!$this->registerHook('footer') || !$this->registerHook('backOfficeHeader'))
             return false;
-
-        return true;
     }
 
 
-    public function uninstall() {
+    public function uninstall()
+    {
 
-        if (!$this->removePopupTabs())
-            return false;
+        if (!BNInstaller::getInstance($this)->uninstall())
+           return false;
 
         if (!parent::uninstall())
             return false;
@@ -147,25 +139,27 @@ class Beautifulpopup extends Module {
                 $cookieName = preg_replace('/[^A-Za-z]/', "", $popup->name);
                 $cookie = new Cookie($cookieName);
 
-                if (!$cookie->__isset($cookieName))
-                    $cookie->__set($cookieName, 0);
+                // if (!$cookie->__isset($cookieName))
+                //     $cookie->__set($cookieName, 0);
+                //
+                // if ($popup->nb_view <= $cookie->__get($cookieName))   // 2. If allready see
+                //     continue;
+                // if ($popup->id_bn_page == 2 && $page != "index")   // 2. If right page
+                //     continue;
+                // if ($popup->id_bn_page == 3 && $page != "product")   // 2. If right page
+                //     continue;
+                // if ($popup->id_bn_page == 4 && $page != "cms")   // 2. If right page
+                //     continue;
+                // if ($popup->id_bn_peaple == 2 && !empty($idCustomer)) // 4. Only guest
+                //     continue;
+                // if ($popup->id_bn_peaple == 3 && empty($idCustomer)) // 5. Only all registered users
+                //     continue;
+                // if ($popup->id_bn_peaple == 4 && (empty($idCustomer) || $nbOrder == 0)) // 6. Only registered users who made a order allready
+                //     continue;
+                // if ($popup->id_bn_peaple == 5 && (empty($idCustomer) || $nbOrder != 0)) // 7. Only registered users who never made any order
+                //     continue;
 
-                if ($popup->nb_view <= $cookie->__get($cookieName))   // 2. If allready see
-                    continue;
-                if ($popup->id_bn_page == 2 && $page != "index")   // 2. If right page
-                    continue;
-                if ($popup->id_bn_page == 3 && $page != "product")   // 2. If right page
-                    continue;
-                if ($popup->id_bn_page == 4 && $page != "cms")   // 2. If right page
-                    continue;
-                if ($popup->id_bn_peaple == 2 && !empty($idCustomer)) // 4. Only guest
-                    continue;
-                if ($popup->id_bn_peaple == 3 && empty($idCustomer)) // 5. Only all registered users
-                    continue;
-                if ($popup->id_bn_peaple == 4 && (empty($idCustomer) || $nbOrder == 0)) // 6. Only registered users who made a order allready
-                    continue;
-                if ($popup->id_bn_peaple == 5 && (empty($idCustomer) || $nbOrder != 0)) // 7. Only registered users who never made any order
-                    continue;
+            
 
                 $cookie->__set($cookieName, (1 + $cookie->__get($cookieName)));
                 return $this->renderPopup($popup);
